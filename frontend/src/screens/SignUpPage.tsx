@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {Box, Paper, Typography, TextField, Button, Stack, Link, CircularProgress} from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { useNavigate } from "react-router-dom";
+import { signup } from "../api/auth";
 
 export type SignupPageProps = {
   onSubmit?: (data: { email: string; password: string }) => void;
@@ -39,34 +40,19 @@ export default function SignupPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!canSubmit || isLoading) return;
-
+  
     setIsLoading(true);
     setServerError(null);
-
+  
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json().catch(() => null);
-
-      if (!res.ok) {
-        const msg = data?.error?.message || data?.message ||`Signup failed (${res.status})`;
-        console.log("error: ",msg);
-        setServerError(msg);
-        return;
-      }
-
+      await signup(email, password);
       setSubmitted(true);
-    } catch (err) {
-      setServerError("Network error. Is the server running?");
+    } catch (err: any) {
+      setServerError(err?.message || "Signup failed");
     } finally {
       setIsLoading(false);
     }
   };
-
   const onLoginClick = () => navigate("/");
 
   return (

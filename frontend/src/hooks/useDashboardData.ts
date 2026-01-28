@@ -73,6 +73,7 @@ export function useDashboardData(): {
   transactions: TxItem[];
 } {
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_BASE;
 
   const [loading, setLoading] = useState<boolean>(true);
   const [errorText, setErrorText] = useState<string>("");
@@ -89,7 +90,7 @@ export function useDashboardData(): {
       setErrorText("");
 
       try {
-        const meRes = await fetch("http://localhost:3000/api/v1/me", { credentials: "include" });
+        const meRes = await fetch(`${API}/me`, { credentials: "include" });
         const meText = await meRes.text();
         const meData = (meText ? JSON.parse(meText) : null) as MeResponse | null;
 

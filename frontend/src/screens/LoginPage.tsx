@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Box, Paper, Typography, TextField, Button, Stack, Link} from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/auth";
 
 export type LoginPageProps = {
   onSignupClick?: () => void;
@@ -31,24 +32,17 @@ export default function LoginPage(props: LoginPageProps) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setErrorText("");
+  
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // for cookies
-        body: JSON.stringify({ email, password }),
-      });
-  
-      const data = await res.json().catch(() => null);
-      console.log("data:", data);
-  
-      if (!res.ok) {setErrorText(data?.error?.message || "Login failed");return;}
-  
+      const data = await login(email, password);
       console.log("JWT:", data.data.token);
       navigate("/dashboard");
-  
-    } catch (err) {setErrorText("Network error. Please try again.");}
+    } catch (err: any) {
+      setErrorText(err?.message || "Login failed");
+    }
   };
+  
   
 
   return (
