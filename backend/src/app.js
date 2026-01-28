@@ -21,7 +21,7 @@ export function createApp() {
   app.use(cors({origin: "http://localhost:5173", credentials: true})); // allow this port to comunicate
 
   
-  app.get("/", (req, res) => {res.status(200).send("Welcome to the Home Page")});
+  app.get("/", (req, res) => {res.status(200).send(" *DEBUGING* Welcome to the Home Page")});
 
 
   app.use(`${API_BASE}/auth`, authRoutes);
