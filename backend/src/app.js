@@ -18,8 +18,22 @@ export function createApp() {
     next();
   });
   
-  app.use(cors({origin: "http://localhost:5173", credentials: true})); // allow this port to comunicate
-  app.use(cors({origin: "https://atlas-bank-k2vo.onrender.com",credentials: true}));
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://atlas-bank-k2vo.onrender.com",
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }));
+  
   
 
   
