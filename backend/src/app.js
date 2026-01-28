@@ -22,6 +22,8 @@ export function createApp() {
     "http://localhost:5173",
     "https://atlas-bank-k2vo.onrender.com",
   ];
+
+  app.set("trust proxy", 1);
   
   app.use(cors({
     origin: function (origin, callback) {

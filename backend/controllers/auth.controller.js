@@ -111,10 +111,13 @@ export async function login(req, res) {
 
       log(req, "AUTH.LOGIN service success", { email: creds.email });
 
+      const isProd = !!process.env.RENDER || process.env.NODE_ENV === "production";
+
       res.cookie("accessToken", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        path: "/",
         maxAge: 1000 * 60 * 60 * 24, // 1 day
       });
 
@@ -188,12 +191,16 @@ export async function verifyLink(req, res) {
 }
 
 export async function logout(req, res) {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
+  const isProd = !!process.env.RENDER || process.env.NODE_ENV === "production";
 
-  return res.status(200).json({ success: true });
+res.clearCookie("accessToken", {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: isProd ? "none" : "lax",
+  path: "/",
+});
+
+return res.status(200).json({ success: true });
+
 }
 
