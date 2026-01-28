@@ -1,0 +1,15 @@
+# node
+node_modules/
+
+# env
+.env
+.env.*
+*.env
+
+# builds
+dist/
+build/
+
+# misc
+.DS_Store
+coverage/
