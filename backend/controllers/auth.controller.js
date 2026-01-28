@@ -103,12 +103,9 @@ export async function login(req, res) {
       log(req, "AUTH.LOGIN validated", { email: creds.email });
       console.log("[LOGIN] secret prefix:", String(process.env.JWT_SECRET || "").slice(0, 6));
 
-
       const result = await loginWithEmailPassword(creds.email, creds.password);
       const token = result.token;
-
       if(!token) throw Object.assign(new Error("No token generated"), { status: 500 })
-
       log(req, "AUTH.LOGIN service success", { email: creds.email });
 
       const isProd = !!process.env.RENDER || process.env.NODE_ENV === "production";

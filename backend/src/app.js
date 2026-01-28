@@ -37,9 +37,15 @@ export function createApp() {
   }));
   
   
-
-  
   app.get("/", (req, res) => {res.status(200).send(" *DEBUGING* Welcome to the Home Page")});
+  app.get("/debug/cookies", (req, res) => {
+    res.json({
+      origin: req.headers.origin || null,
+      cookieHeader: req.headers.cookie || null,
+      cookiesParsed: req.cookies || null,
+    });
+  });
+  
 
 
   app.use(`${API_BASE}/auth`, authRoutes);
