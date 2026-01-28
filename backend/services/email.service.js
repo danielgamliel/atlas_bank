@@ -1,37 +1,15 @@
-import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendVerificationEmail(toEmail, verifyUrl) {
-  console.log("[EMAIL] start sendVerificationEmail", {
+  console.log("[EMAIL] start sendVerificationEmail (RESEND)", {
     toEmail,
-    hasUser: !!process.env.EMAIL_USER,
-    hasPass: !!process.env.EMAIL_PASS,
+    hasApiKey: !!process.env.RESEND_API_KEY,
+    from: process.env.EMAIL_FROM,
   });
-
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 20000,
-  });
-
-  try {
-    console.log("[EMAIL] verifying SMTP connection...");
-    await transporter.verify();
-    console.log("[EMAIL] SMTP verify OK");
-  } catch (err) {
-    console.error("[EMAIL] SMTP verify FAILED", {
-      message: err?.message,
-      code: err?.code,
-      command: err?.command,
-    });
-    throw err;
-  }
 
   const templatePath = path.resolve(
     process.cwd(),
@@ -53,23 +31,23 @@ export async function sendVerificationEmail(toEmail, verifyUrl) {
     .replaceAll("{{YEAR}}", new Date().getFullYear());
 
   try {
-    console.log("[EMAIL] sending mail...");
-    const info = await transporter.sendMail({
-      from: `"Atlas Bank" <${process.env.EMAIL_USER}>`,
+    console.log("[EMAIL] sending via Resend...");
+    const result = await resend.emails.send({
+      from: `Atlas Bank <${process.env.EMAIL_FROM}>`,
       to: toEmail,
       subject: "Verify your Atlas Bank account",
       html,
     });
-    console.log("[EMAIL] mail sent OK", {
-      messageId: info.messageId,
-      response: info.response,
+
+    console.log("[EMAIL] Resend sent OK", {
+      id: result?.data?.id,
     });
   } catch (err) {
-    console.error("[EMAIL] sendMail FAILED", {
+    console.error("[EMAIL] Resend FAILED", {
       message: err?.message,
-      code: err?.code,
-      command: err?.command,
-      response: err?.response,
+      name: err?.name,
+      statusCode: err?.statusCode,
+      error: err,
     });
     throw err;
   }
