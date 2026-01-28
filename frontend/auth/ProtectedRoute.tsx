@@ -10,7 +10,7 @@ export function ProtectedRoute() {
 
   useEffect(() => {
     (async () => {
-      const url = `${API_BASE}me`;
+      const url = `${API_BASE}/me`;
 
       console.log("[ProtectedRoute] start check:", {
         url,
