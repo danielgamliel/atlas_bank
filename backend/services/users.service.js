@@ -3,18 +3,20 @@ import crypto from "crypto";
 import { ObjectId } from "mongodb";
 import { USERS_COLLECTION } from "../models/user.model.js";
 import { getDB, getClient } from "../db/mongodb.js";
-import { toDec } from "../utils/money.js";
 
 function hashVerificationToken(token) {
   return crypto.createHash("sha256").update(token).digest("hex");
 }
 
-function genAccountNumber() {
-  return String(Date.now()) + String(Math.floor(Math.random() * 1000)).padStart(3, "0");
-}
-
-export async function createUser({email, passwordHash, firstName, lastName, phone, verificationToken, verificationExpiresAt}) 
-{
+export async function createUser({
+  email,
+  passwordHash,
+  firstName,
+  lastName,
+  phone,
+  verificationToken,
+  verificationExpiresAt,
+}) {
   const db = getDB();
   const client = getClient();
   const session = client.startSession();
@@ -30,29 +32,19 @@ export async function createUser({email, passwordHash, firstName, lastName, phon
         firstName,
         lastName,
         phone,
+
         balance: 800.0, 
-        isVerified: 'PENDING',
+
+        isVerified: "PENDING",
         verificationTokenHash: hashVerificationToken(verificationToken),
         verificationExpiresAt,
+
         createdAt: now,
-        updatedAt: now
+        updatedAt: now,
       };
 
       const u = await db.collection(USERS_COLLECTION).insertOne(userDoc, { session });
-
-      const accountDoc = {
-        userId: u.insertedId,
-        accountNumber: genAccountNumber(),
-        balance: 0.0,
-        currency: "ILS",
-        status: "ACTIVE",
-        createdAt: now,
-        updatedAt: now
-      };
-
-      const a = await db.collection(ACCOUNTS_COLLECTION).insertOne(accountDoc, { session });
-
-      created = { ...userDoc, _id: u.insertedId, accountId: a.insertedId };
+      created = { ...userDoc, _id: u.insertedId };
     });
 
     return created;
@@ -78,11 +70,11 @@ export async function markUserVerified(userId) {
     { _id: new ObjectId(userId) },
     {
       $set: {
-        isVerified: 'ACTIVE',
+        isVerified: "ACTIVE",
         verificationTokenHash: null,
         verificationExpiresAt: null,
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
     }
   );
 }
