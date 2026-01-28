@@ -89,7 +89,8 @@ export default function TransferPage(props: TransferPageProps) {
   };
 
   async function postTransfer(payload: TransferPayload): Promise<void> {
-    const url = "http://localhost:3000/api/v1/transactions";
+    const apiBaseUrl = import.meta.env.VITE_API_BASE as string;
+    const url = `${apiBaseUrl}/transactions`;
 
     console.log("[Transfer] POST start", {
       url,
@@ -168,10 +169,10 @@ export default function TransferPage(props: TransferPageProps) {
     }
   };
 
-  
+  const apiBaseUrl = import.meta.env.VITE_API_BASE as string;  
 const onLogout = async () => {
     try {
-      await fetch("http://localhost:3000/api/v1/auth/logout", {
+      await fetch(`${apiBaseUrl}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

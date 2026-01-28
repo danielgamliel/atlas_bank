@@ -5,9 +5,12 @@ export function ProtectedRoute() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
 
+  const API_BASE = import.meta.env.VITE_API_BASE as string;
+
+
   useEffect(() => {
     (async () => {
-      const url = "http://localhost:3000/api/v1/me";
+      const url = `${API_BASE}me`;
 
       console.log("[ProtectedRoute] start check:", {
         url,

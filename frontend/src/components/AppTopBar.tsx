@@ -11,10 +11,14 @@ export default function AppTopBar(): React.JSX.Element {
   const location = useLocation();
 
   const activePath = location.pathname;
+  const API_BASE = import.meta.env.VITE_API_BASE as string;
+
+
+;
 
   async function onLogout(): Promise<void> {
     try {
-      await fetch("http://localhost:3000/api/v1/auth/logout", {
+      await fetch(`${API_BASE}auth/logout`, {
         method: "POST",
         credentials: "include",
       });

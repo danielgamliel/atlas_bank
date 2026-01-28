@@ -81,6 +81,8 @@ export function useDashboardData(): {
   const [userName, setUserName] = useState<string>("Welcome back!");
   const [balanceText, setBalanceText] = useState<string>("$0.00");
   const [transactions, setTransactions] = useState<TxItem[]>([]);
+   const API_BASE = import.meta.env.VITE_API_BASE as string;
+
 
   useEffect(() => {
     let isMounted = true;
@@ -107,7 +109,7 @@ export function useDashboardData(): {
           setBalanceText(new Intl.NumberFormat("he-IL", { style: "currency", currency: "USD" }).format(u.balance));
         }
 
-        const txRes = await fetch("http://localhost:3000/api/v1/transactions?offset=0&limit=3", { credentials: "include" });
+        const txRes = await fetch(`${API_BASE}/transactions?offset=0&limit=3`, { credentials: "include" });
         const txText = await txRes.text();
 
         if (txRes.ok) {

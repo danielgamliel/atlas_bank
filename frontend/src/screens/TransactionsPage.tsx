@@ -19,7 +19,7 @@ type GetTransactionsResponse = {
 };
 
 export default function TransactionsPage(): React.JSX.Element {
-  const apiBaseUrl = "http://localhost:3000/api/v1";
+  const apiBaseUrl = import.meta.env.VITE_API_BASE as string;
 
   const [loading, setLoading] = useState(true);
   const [errorText, setErrorText] = useState<string | null>(null);
