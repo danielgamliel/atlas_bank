@@ -2,7 +2,6 @@
 import crypto from "crypto";
 import { ObjectId } from "mongodb";
 import { USERS_COLLECTION } from "../models/user.model.js";
-import { ACCOUNTS_COLLECTION } from "../models/account.model.js";
 import { getDB, getClient } from "../db/mongodb.js";
 import { toDec } from "../utils/money.js";
 
