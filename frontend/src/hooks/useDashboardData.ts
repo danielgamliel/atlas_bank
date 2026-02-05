@@ -135,3 +135,4 @@ export function useDashboardData(): {
 
   return { loading, errorText, userName, balanceText, transactions };
 }
+ 

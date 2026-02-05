@@ -9,12 +9,12 @@ import TransactionsPage from './screens/TransactionsPage';
 import { ProtectedRoute } from '../auth/ProtectedRoute';
 import { Routes, Route } from "react-router-dom";
 
-
 function App() {
  
   return (
     <Routes>
     <Route path="/" element={<LandingPage />} />
+    <Route path="/verify-success" element={<LoginPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<SignupPage />} />
      <Route element={<ProtectedRoute />}>
@@ -25,5 +25,10 @@ function App() {
   </Routes>
   )
 }
+ 
+
 
 export default App
+
+
+
