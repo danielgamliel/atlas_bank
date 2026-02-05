@@ -4,7 +4,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendVerificationEmail(toEmail, verifyUrl) {
+export async function 
+sendVerificationEmail(toEmail, verifyUrl) {
   console.log("[EMAIL] start sendVerificationEmail (RESEND)", {
     toEmail,
     hasApiKey: !!process.env.RESEND_API_KEY,

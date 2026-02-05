@@ -7,9 +7,7 @@ export default function authenticate(req, res, next) {
 
     const authHeader = req.headers.authorization;
     const fromHeader =
-      authHeader && authHeader.startsWith("Bearer ")
-        ? authHeader.slice("Bearer ".length)
-        : null;
+      authHeader && authHeader.startsWith("Bearer ")? authHeader.slice("Bearer ".length) : null;
 
     const token = fromCookie || fromHeader;
 

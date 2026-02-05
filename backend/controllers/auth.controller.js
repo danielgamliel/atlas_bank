@@ -178,7 +178,7 @@ export async function verifyLink(req, res) {
       const user = await verifyEmailByToken(token);
       log(req, "AUTH.VERIFY verified", { userId: user && user._id });
 
-      return res.status(200).json({success: true, data: { message: "Email verified" }});
+      return res.redirect("https://atlas-bank-k2vo.onrender.com/verify-success");
     });
   } catch (err) {
     const out = toErrorResponse(err);

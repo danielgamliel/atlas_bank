@@ -21,6 +21,7 @@ export function createApp() {
   const allowedOrigins = [
     "http://localhost:5173",
     "https://atlas-bank-k2vo.onrender.com",
+    "http://localhost:10000"
   ];
 
   app.set("trust proxy", 1);
@@ -32,7 +33,7 @@ export function createApp() {
       } else {
         callback(new Error("Not allowed by CORS"));
       }
-    },
+    },  
     credentials: true,
   }));
   
