@@ -183,7 +183,7 @@ export async function verifyLink(req, res) {
   } catch (err) {
     const out = toErrorResponse(err);
     log(req, "AUTH.VERIFY response", { status: out.status, code: out.body && out.body.error && out.body.error.code });
-    return res.status(out.status).json(out.body);
+    return res.redirect("https://atlas-bank-k2vo.onrender.com/verify-failed");
   }
 }
 
