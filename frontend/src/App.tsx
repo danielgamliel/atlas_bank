@@ -5,6 +5,8 @@ import SignupPage from './screens/SignUpPage';
 import DashboardPage from './screens/DashboardPage';
 import TransferPage from './screens/TransferPage';
 import TransactionsPage from './screens/TransactionsPage';
+import VerifySuccessPage from './screens/VerifySuccessPage';
+import VerifyFailedPage from './screens/VerifyFailedPage';
 
 import { ProtectedRoute } from '../auth/ProtectedRoute';
 import { Routes, Route } from "react-router-dom";
@@ -14,7 +16,8 @@ function App() {
   return (
     <Routes>
     <Route path="/" element={<LandingPage />} />
-    <Route path="/verify-success" element={<LoginPage />} />
+    <Route path="/verify-success" element={<VerifySuccessPage />} />
+    <Route path="/verify-failed" element={<VerifyFailedPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<SignupPage />} />
      <Route element={<ProtectedRoute />}>
